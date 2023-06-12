@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Movie Seat Booking</title>
+  </head>
+  <body>
+    <h1>Movie Seat Selection</h1>
+    <div class="movie-container">
+      <label> Select a movie:</label>
+      <select id="movie">
+        <option value="8">Evil Dead Rise</option>
+        <option value="6">The Little Mermaid</option>
+        <option value="10">Fast X</option>
+        <option value="7">Guardians of the Galaxy Vol. 3</option>
+      </select>
+    </div>
+    <ul class="showcase">
+      <li>
+        <div class="seat"></div>
+        <small>Available</small>
+      </li>
+      <li>
+        <div class="seat selected"></div>
+        <small>Selected</small>
+      </li>
+      <li>
+        <div class="seat sold"></div>
+        <small>Sold</small>
+      </li>
+    </ul>
+    <div class="container">
+      <div class="screen"></div>
+
+      <div class="row">
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+        <div class="seat"></div>
+      </div>
+
+      <div class="row">
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat sold"></div>
+      </div>
+
+      <div class="row">
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+        <div class="seat"></div>
+        <div class="seat sold"></div>     
+      </div>
+      <div class="row">
+        <div class="seat"></div>
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="seat"></div>
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+      </div>
+      <div class="row">
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+      </div>
+
+      <div class="row">
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+        <div class="seat"></div>
+      </div>
+
+        <div class="row">
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+      </div>
+
+        <div class="row">
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+      </div>
+      <hr>
+        <div class="row">
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+        <div class="seat"></div>
+      </div>
+
+        <div class="row">
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+      </div>
+
+      <div class="row">
+        <div class="seat"></div>
+        <div class="seat"></div>
+        <div class="seat"></div>
+        <div class="seat sold"></div>
+      </div>
+    </div>
+    <p class="text">
+      You have selected <span id="count">0</span> seats
+    </p>
+    <!-- HTML !-->
+  <a href="booking.php"><button class="button-82-pushable" role="button">
+  <span class="button-82-shadow"></span>
+  <span class="button-82-edge"></span>
+  <span class="button-82-front text">
+    Back to Booking
+  </span>
+</button></a>
+
+<script>
+  // Get all the seats
+const seats = document.querySelectorAll('.row .seat');
+
+// Get the total number of seats
+const totalSeats = seats.length;
+
+// Function to check if a seat is a single seat
+function isSingleSeat(index) {
+  const previousSeat = seats[index - 1];
+  const nextSeat = seats[index + 1];
+  const isPreviousSeatTaken = previousSeat && previousSeat.classList.contains('selected');
+  const isNextSeatTaken = nextSeat && nextSeat.classList.contains('selected');
+  return !isPreviousSeatTaken && !isNextSeatTaken;
+}
+
+// Function to update the selected seats count
+function updateSelectedCount() {
+  const selectedSeats = document.querySelectorAll('.row .seat.selected');
+  const selectedSeatsCount = selectedSeats.length;
+
+  // Update the count on the page
+  document.getElementById('count').textContent = selectedSeatsCount;
+
+  // Disable/Enable single seats based on the count
+  seats.forEach((seat, index) => {
+    if (isSingleSeat(index) && selectedSeatsCount >= 1) {
+      seat.classList.remove('available');
+      seat.classList.add('sold');
+    } else {
+      seat.classList.remove('sold');
+      seat.classList.add('available');
+    }
+  });
+}
+
+// Add click event listeners to the available seats
+seats.forEach((seat, index) => {
+  seat.addEventListener('click', () => {
+    if (!seat.classList.contains('sold')) {
+      seat.classList.toggle('selected');
+      updateSelectedCount();
+    }
+  });
+});
+
+</script>
+</body>
+<style>
+  body {
+    background-color: #f2f2f2;
+    color: #333;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1 {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    margin: 0;
+  }
+
+  .movie-container {
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  select {
+    padding: 10px;
+    font-size: 16px;
+    width: 200px;
+    border: 2px solid #333;
+    border-radius: 4px;
+  }
+
+  .showcase {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .showcase li {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+
+  .seat {
+    width: 30px;
+    height: 30px;
+    background-color: #ddd;
+    margin-right: 5px;
+    border-radius: 5px;
+  }
+
+  .seat.available {
+    background-color: #b3e5fc;
+    cursor: pointer;
+  }
+
+  .seat.selected {
+    background-color: #4fc3f7;
+  }
+
+  .seat.sold {
+    background-color: #bdbdbd;
+    cursor: not-allowed;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .screen {
+    width: 100%;
+    height: 20px;
+    background-color: #333;
+    margin-bottom: 10px;
+  }
+
+  .text {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .button-82-pushable {
+    position: relative;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    outline-offset: 4px;
+    transition: filter 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+
+  .button-82-shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.25);
+    will-change: transform;
+    transform: translateY(2px);
+    transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+  }
+
+  .button-82-edge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient(to left, #ff4081 0%, #f50057 100%);
+  }
+
+  .button-82-front {
+    display: block;
+    position: relative;
+    padding: 12px 27px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    color: #fff;
+    background: #e91e63;
+    will-change: transform;
+    transform: translateY(-4px);
+    transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+  }
+
+  .button-82-pushable:hover {
+    filter: brightness(110%);
+    -webkit-filter: brightness(110%);
+  }
+
+  .button-82-pushable:hover .button-82-front {
+    transform: translateY(-6px);
+    transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+  }
+
+  .button-82-pushable:active .button-82-front {
+    transform: translateY(-2px);
+    transition: transform 34ms;
+  }
+
+  .button-82-pushable:hover .button-82-shadow {
+    transform: translateY(4px);
+    transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+  }
+
+  .button-82-pushable:active .button-82-shadow {
+    transform: translateY(1px);
+    transition: transform 34ms;
+  }
+
+  .button-82-pushable:focus:not(:focus-visible) {
+    outline: none;
+  }
+</style>
+
+</html>
